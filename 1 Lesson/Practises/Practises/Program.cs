@@ -2,37 +2,47 @@
 {
     private static void Main(string[] args)
     {
-        string exit;
+        string exit = "";
         do
         {
-            Console.Clear();
-            Console.Write("\nFunctions...\n" +
-                "1: Lorem ipsum text output from file with word limit\n" +
-                "2: Summarize two number\n" +
-                "Choose function:");
-
-            int choseUser = int.Parse(Console.ReadLine());
-
-            switch (choseUser)
+            try
             {
-                case 1:
-                    Console.Write("\nChoose limit word:");
-                    int countWord = int.Parse(Console.ReadLine());
-                    Console.WriteLine($"\nResult:{GetText(countWord)}");
-                    break;
-                case 2:
-                    Console.Write("\nWrite first number:");
-                    int firstNumber = int.Parse(Console.ReadLine());
-                    Console.Write("Write second number:");
-                    int secondNumber = int.Parse(Console.ReadLine());
-                    Console.Write($"\nResult:{Sum(firstNumber, secondNumber)}");
-                    break;
-                default:
-                    Console.WriteLine("Function not found");
-                    break;
+                Console.Clear();
+                Console.Write("\nFunctions...\n" +
+                    "1: Lorem ipsum text output from file with word limit\n" +
+                    "2: Summarize two number\n" +
+                    "Choose function:");
+
+                int choseUser = int.Parse(Console.ReadLine());
+
+                switch (choseUser)
+                {
+                    case 1:
+                        Console.Write("\nChoose limit word:");
+                        int countWord = int.Parse(Console.ReadLine());
+                        Console.WriteLine($"\nResult:{GetText(countWord)}");
+                        break;
+                    case 2:
+                        Console.Write("\nWrite first number:");
+                        int firstNumber = int.Parse(Console.ReadLine());
+                        Console.Write("Write second number:");
+                        int secondNumber = int.Parse(Console.ReadLine());
+                        Console.Write($"\nResult:{Sum(firstNumber, secondNumber)}");
+                        break;
+                    default:
+                        Console.WriteLine("Function not found");
+                        break;
+                }
+
+            }catch(Exception ex)
+            {
+                Console.WriteLine($"\n{ex.Message}");
             }
-            Console.Write("\nIf you want exit write e:");
-            exit = Console.ReadLine();
+            finally
+            {
+                Console.Write("\nIf you want exit write e:");
+                exit = Console.ReadLine();
+            }
         } while (exit.ToLower().Trim() != "e");
         
     }
@@ -44,7 +54,9 @@
         char[] emptyChars = { ' ', '\n', '\r' };
         string[] words = text.Split(emptyChars);
 
-        for (int i = 0; i < countWords + 1; i++)
+        if (words.Length < countWords) throw new Exception("Limit words more text words");
+
+        for (int i = 0; i < countWords + 1; i++)    
         {
             if (words[i] != string.Empty)   
             result += words[i] + " ";
